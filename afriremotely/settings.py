@@ -21,7 +21,7 @@ SECRET_KEY = env('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['afriremotely.onrender.com', 'https://afriremotely.onrender.com', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['afriremotely.onrender.com', 'afriremotely-d5zt.vercel.app', 'https://afriremotely.onrender.com', 'localhost', '127.0.0.1']
 
 
 # Application definition
@@ -34,8 +34,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # external packages
-
+    'rest_framework',
     # local apps
+    'users',
     'jobs',
     'api',
     'search',
@@ -75,10 +76,24 @@ WSGI_APPLICATION = 'afriremotely.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
+"""
+
 DATABASES = {
     'default': dj_database_url.parse(env('DATABASE_URL'))
 }
 
+"""
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': env('DB_NAME'),
+        'USER': env('DB_USER'),
+        'PASSWORD': env('DB_PASSWORD'),
+        'HOST': env('DB_HOST'),
+        'PORT': env('DB_PORT'),
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
@@ -120,3 +135,6 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+AUTH_USER_MODEL = 'users.User'
