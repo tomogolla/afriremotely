@@ -79,14 +79,14 @@ WSGI_APPLICATION = 'afriremotely.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-"""
+
 
 DATABASES = {
     'default': dj_database_url.parse(env('DATABASE_URL'))
 }
 
-"""
 
+"""
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -97,6 +97,9 @@ DATABASES = {
         'PORT': env('DB_PORT'),
     }
 }
+
+"""
+
 
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
