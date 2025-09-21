@@ -22,3 +22,9 @@ class JobApplications(models.Model):
 
     def __str__(self):
         return f"Application by {self.applicant.username} for {self.job.title}"
+    
+    class Meta:
+        indexes = [
+            models.Index(fields=['job', 'applicant']),
+            models.Index(fields=['status']),
+        ]

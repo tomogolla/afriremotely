@@ -68,3 +68,8 @@ class JobPosting(models.Model):
 
     def __str__(self):
         return f"{self.title}, at {self.company_name}"
+    
+    class Meta:
+        indexes = [
+            models.Index(fields=['title']),
+        ]
