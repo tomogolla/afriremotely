@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager, Group, Permission
 import uuid
 
 # Custom user manager
@@ -39,7 +39,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(unique=True)
     first_name = models.CharField(max_length=150)
     last_name = models.CharField(max_length=150)
-    role = models.CharField(max_length=20, choices=ROLE_CHOICES)
+    role = models.CharField(max_length=20, choices=ROLE_CHOICES, default='applicant')
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -50,6 +50,17 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ["username"]
+
+    groups = models.ManyToManyField(
+        Group,
+        related_name="custom_user_set",   # avoids clash with auth.User.groups
+        blank=True
+    )
+    user_permissions = models.ManyToManyField(
+        Permission,
+        related_name="custom_user_set",   # avoids clash with auth.User.user_permissions
+        blank=True
+    )
     
     def __str__(self):
         return f"{self.username} ({self.role})"
@@ -58,7 +69,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 # Applicant Profile
 
-class ApplicationProfile(models.Model):
+class ApplicantProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="applicant_profile")
     resume = models.URLField(max_length=500)
     education_level = models.CharField(max_length=150)
