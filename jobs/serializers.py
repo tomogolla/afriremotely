@@ -11,27 +11,27 @@ class CategorySerializer(serializers.ModelSerializer):
 class LocationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Location
-        field = ['id', 'city', 'country']
+        fields = ['id', 'city', 'country']
 
 class JobPostingSerializer(serializers.ModelSerializer):
-    category_id = CategorySerializer(read_only=True)
-    Location_id = LocationSerializer(read_only=True)
+    category = CategorySerializer(read_only=True)
+    location = LocationSerializer(read_only=True)
     posted_by = serializers.StringRelatedField(read_only=True)
 
 
     class Meta:
         model = JobPosting
-        field = [
+        fields = [
             'id', 'title', 'description', 'company_name', 'employment_type', 
-            'location_id', 'category_id', 'posted_by', 'created_at', 'updated_at',
+            'location', 'category', 'posted_by', 'created_at', 'updated_at',
             'work_mode', 'experience_level', 'salary', 'responsibilities', 
             'professional_skills', 'tags'
             ]
 
             
 class JobPostingListSerializer(serializers.ModelSerializer):
-    category_id = CategorySerializer(read_only=True)
-    location_id = LocationSerializer(read_only=True)
+    category = CategorySerializer(read_only=True)
+    location = LocationSerializer(read_only=True)
 
     class Meta:
         model = JobPosting
