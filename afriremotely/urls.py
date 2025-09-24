@@ -24,7 +24,7 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/users/", include("users.urls")),
     path("api/jobs/", include("jobs.urls")),
-    # path("api/applications/", include("applications.urls")),
+    # popeath("api/applications/", include("applications.urls")),
 
     # swagger + redoc
     path("api/docs/", schema_view.with_ui("swagger", cache_timeout=0), name="schema-swagger-ui"),

@@ -1,8 +1,7 @@
 from rest_framework import serializers
-from django.contrib.auth import get_user_model
+from .models import User
 from django.contrib.auth.password_validation import validate_password
 
-User = get_user_model()
 
 class UserSignupSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, validators=[validate_password])
@@ -10,7 +9,7 @@ class UserSignupSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ('username', 'email', 'password', 'password2', 'user_type')
+        fields = ('username', 'email', 'password', 'password2', 'role')
 
     def validate(self, attrs):
         if attrs['password'] != attrs['password2']:
@@ -40,7 +39,7 @@ class UserLoginSerializer(serializers.Serializer):
         refresh = RefreshToken.for_user(user)
         return {
             "username": user.username,
-            "user_type": user.user_type,
+            "role": user.role,
             "tokens": {
                 "refresh": str(refresh),
                 "access": str(refresh.access_token),
