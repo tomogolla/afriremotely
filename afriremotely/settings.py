@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     # external packages
     'rest_framework',
     'drf_yasg',
-    # 'drf_spectacular',
+    'drf_spectacular',
     # local apps
     'users',
     'jobs',
