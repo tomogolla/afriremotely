@@ -21,7 +21,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['afriremotely.onrender.com', 'afriremotely-d5zt.vercel.app', 'https://afriremotely.onrender.com', 'localhost', '127.0.0.1']
 
@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'drf_yasg',
     'drf_spectacular',
     "corsheaders",
+    'rest_framework_simplejwt',
 
     # local apps
     'users',
