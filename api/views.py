@@ -93,6 +93,15 @@ class JobPostingViewSet(viewsets.ModelViewSet):
             for choice in JobPosting.EmploymentType.choices
         ]
         return Response(employment_types)
+    
+    @action(detail=False, methods=['get'], permission_classes=[permissions.AllowAny])
+    def experience_level(self, request):
+        experience_levels = [
+            {'value': choice[0], 'label': choice[1]}
+            for choice in JobPosting.ExperienceLevel.choices
+        ]
+        return Response(experience_levels)
+
 
 # Category ViewSet
 class CategoryViewSet(viewsets.ModelViewSet):

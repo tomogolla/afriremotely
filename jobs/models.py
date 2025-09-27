@@ -27,31 +27,29 @@ class Location(models.Model):
 # jobposting
 
 class JobPosting(models.Model):
-    EMPLOYMENT_TYPE_CHOICES = [
-        ("full_time", "Full-time"),
-        ("part_time", "Part-time"),
-        ("contract", "Contract"),
-        ("internship", "Internship"),
-    ]
+    class EmploymentType(models.TextChoices):
+        FULL_TIME = 'full_time', 'Full-time'
+        PART_TIME = 'part_time', 'Part-time'
+        CONTRACT = 'contract', 'Contract'
+        INTERNSHIP = 'internship', 'Internship'
 
-    WORK_MODE_CHOICES = [
-        ("remote", "Remote"),
-        ("hybrid", "Hybrid"),
-        ("onsite", "On-site"),
-    ]
+    class WorkMode(models.TextChoices):
+        REMOTE = 'remote', 'Remote'
+        HYBRID = 'hybrid', 'Hybrid'
+        ON_SITE = 'on_site', 'On-site'
 
-    EXPERIENCE_LEVEL_CHOICES = [
-        ("entry", "Entry"),
-        ("mid", "Mid"),
-        ("senior", "Senior"),
-        ("lead", "Lead"),
-    ]
+    class ExperienceLevel(models.TextChoices):
+        ENTRY = 'entry', 'Entry'
+        MID = 'mid', 'Mid'
+        SENIOR = 'senior', 'Senior'
+        LEAD = 'lead', 'Lead'
+
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     title = models.CharField(max_length=255)
     description = models.TextField()
     company_name = models.CharField(max_length=255)
-    employment_type = models.CharField(max_length=20, choices=EMPLOYMENT_TYPE_CHOICES)
+    employment_type = models.CharField(max_length=20, choices=EmploymentType.choices)
     location = models.ForeignKey(Location, on_delete=models.CASCADE, related_name="jobs")
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name="jobs")
 
@@ -59,8 +57,8 @@ class JobPosting(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    work_mode = models.CharField(max_length=10, choices=WORK_MODE_CHOICES, default="onsite")
-    experience_level = models.CharField(max_length=10, choices=EXPERIENCE_LEVEL_CHOICES, default="entry")
+    work_mode = models.CharField(max_length=10, choices=WorkMode.choices, default="onsite")
+    experience_level = models.CharField(max_length=10, choices=ExperienceLevel.choices, default="entry")
     salary = models.DecimalField(max_digits=12, decimal_places=2, null=True, blank=True)
     responsibilities = models.TextField(blank=True, null=True)
     professional_skills = models.TextField(blank=True, null=True)
