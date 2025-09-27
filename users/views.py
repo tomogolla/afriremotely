@@ -5,6 +5,8 @@ from rest_framework import status
 from rest_framework.permissions import AllowAny
 from .serializers import UserSerializer
 from .models import User
+from .models import ApplicantProfile, RecruiterProfile
+from .serializers import ApplicantProfileSerializer, RecruiterProfileSerializer
 
 
 class SignupView(generics.CreateAPIView):
@@ -24,3 +26,26 @@ class LoginView(generics.GenericAPIView):
 class UserListView(generics.ListAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+
+
+# ApplicantProfile API Views
+class ApplicantProfileListCreateView(generics.ListCreateAPIView):
+    queryset = ApplicantProfile.objects.all()
+    serializer_class = ApplicantProfileSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+class ApplicantProfileRetrieveUpdateView(generics.RetrieveUpdateAPIView):
+    queryset = ApplicantProfile.objects.all()
+    serializer_class = ApplicantProfileSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+# RecruiterProfile API Views
+class RecruiterProfileListCreateView(generics.ListCreateAPIView):
+    queryset = RecruiterProfile.objects.all()
+    serializer_class = RecruiterProfileSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+class RecruiterProfileRetrieveUpdateView(generics.RetrieveUpdateAPIView):
+    queryset = RecruiterProfile.objects.all()
+    serializer_class = RecruiterProfileSerializer
+    permission_classes = [permissions.IsAuthenticated]

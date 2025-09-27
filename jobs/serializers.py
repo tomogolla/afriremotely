@@ -37,3 +37,6 @@ class JobPostingListSerializer(serializers.ModelSerializer):
         model = JobPosting
         fields = ['id', 'title', 'company_name', 'employment_type', 'location', 
                   'category', 'work_mode', 'experience_level', 'salary', 'created_at']
+
+
+                  

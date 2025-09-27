@@ -1,6 +1,7 @@
 from rest_framework import serializers
-from .models import User
+from .models import User, ApplicantProfile, RecruiterProfile
 from django.contrib.auth.password_validation import validate_password
+from rest_framework_simplejwt.tokens import RefreshToken
 
 
 class UserSignupSerializer(serializers.ModelSerializer):
@@ -18,12 +19,20 @@ class UserSignupSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         validated_data.pop('password2')
+        role = validated_data.get('role')
         user = User.objects.create_user(**validated_data)
+        User.save()
+
+        if role == "applicant":
+            ApplicantProfile.objects.create(user=user)
+        elif role == 'recruiter':
+            RecruiterProfile.objects.create(user = user)
+
+            
         return user
 
 
 
-from rest_framework_simplejwt.tokens import RefreshToken
 
 class UserLoginSerializer(serializers.Serializer):
     username = serializers.CharField()
@@ -51,3 +60,38 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ["id", "username", "email", "role"] 
+
+class ApplicantProfileSerializer(serializers.ModelSerializer):
+    user = UserSerializer(read_only = True)
+    user_id = serializers.PrimaryKeyRelatedField(
+        queryset=User.objects.all(), write_only=True, source="user"
+    )
+    class Meta:
+        model = ApplicantProfile
+        fields = [
+            "id", 
+            "user",
+            "user_id",
+            "resume",
+            "education_level",
+            "experience_years",
+            "skills",
+        ]
+
+# Recruiter Profile Serializer
+class RecruiterProfileSerializer(serializers.ModelSerializer):
+    user = UserSerializer(read_only=True)
+    user_id = serializers.PrimaryKeyRelatedField(
+        queryset=User.objects.all(), write_only=True, source="user"
+    )
+
+    class Meta:
+        model = RecruiterProfile
+        fields = [
+            "id",
+            "user",
+            "user_id",
+            "company_name",
+            "company_website",
+            "position",
+        ]
